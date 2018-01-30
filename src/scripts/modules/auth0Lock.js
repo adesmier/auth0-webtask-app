@@ -15,7 +15,7 @@ const lockOptions = {
     title: 'Top Secret Area'
   },
   auth: {
-    redirectUrl: 'http://localhost:3000',
+    redirectUrl: 'https://www.throughthestack.com/demos/auth0-webtask-app',
     responseType: 'token id_token'
   }
 };
