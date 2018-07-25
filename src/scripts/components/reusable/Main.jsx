@@ -19,8 +19,7 @@ export default class Main extends React.Component {
   //React life cycle functions - START
 
   componentDidMount() {
-    //allow time for token to be written to disk after url redirect
-    this.ajaxInterval = setInterval(this.requestData, 1000);
+    this.initRequest();
   }
 
   componentWillUnmount() {
@@ -29,17 +28,27 @@ export default class Main extends React.Component {
 
   //React life cycle functions - END
 
+  initRequest() {
+    //we'll run our ajax request in a setInterval to allow enough time for the
+    //returned token to be written to disk
+    this.ajaxInterval = setInterval(this.requestData, 1000);
+  }
+
   requestData = () => {
     ajax
       .getContent()
       .then(data => {
-        clearInterval(this.ajaxInterval); //a token was found in local storage
+        //a token was found in local storage so clear the interval and update
+        //state with our data
+        clearInterval(this.ajaxInterval);
         this.setState({apiData: data});
       })
       .catch(error => {
         //allow 3 attempts to get token
         console.log('Interval is: ', this.state.intervalCounter);
         if (this.state.intervalCounter === 3) {
+          //after our interval has elapsed, we can be confident that we don't
+          //have an authentication token so let's request the user to login
           clearInterval(this.ajaxInterval);
           this.setState({
             apiData: {
@@ -55,7 +64,16 @@ export default class Main extends React.Component {
       });
   };
 
-  clickHandler = () => {
+  applyFakeClickHandler =() => {
+    localStorage.setItem(
+      'auth0-webtask-app-access-token',
+      'SOME43534FAKE45645TOKEN'
+    );
+    this.initRequest();
+    this.setState({ apiData: null })
+  }
+
+  removeClickHandler = () => {
     Auth0Lock.removeToken();
     this.setState({
       apiData: {
@@ -66,13 +84,14 @@ export default class Main extends React.Component {
   }
 
   render() {
+    const { apiData } = this.state;
     
-    if (this.state.apiData) {
+    if(apiData) {
+      console.log(apiData);
+      const {status, data} = apiData;
 
-      console.log(this.state.apiData);
-      let {status, data} = this.state.apiData;
-
-      if (status === 401) {
+      if(status === 401) {
+        //we need to ask the user to login
         return (
           <div>
             <p>{data}</p>
@@ -80,10 +99,19 @@ export default class Main extends React.Component {
               title='Login'
               clickHandler={Auth0Lock.showLock}
             />
+            <br />
+            <p>
+              Try to apply a fake token to try and bypass authentication and we
+              get an error from our webtask
+            </p>
+            <Button 
+              title='Apply Fake Token'
+              clickHandler={this.applyFakeClickHandler}
+            />
           </div>
         );
-      } else if (status === 200) {
-
+      } else if(status === 200) {
+        //we have the data so lets display it
         let users = data.map(user => (
           <User
             key={user.id}
@@ -93,21 +121,23 @@ export default class Main extends React.Component {
           />
         ));
 
+        //provide an option to clear the token
         return(
           <div>
             <Button 
               title='Clear Token'
-              clickHandler={this.clickHandler}
+              clickHandler={this.removeClickHandler}
             />
             {users}
           </div>
         )
 
       }
-
     } else {
+      //loading is display on first mount then we'll check to see if
+      //credentials are stored in local storage
       return <Loading />;
     }
-    
   }
+
 }

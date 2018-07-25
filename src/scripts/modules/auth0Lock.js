@@ -1,5 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 
+//define out auth0 lock options
+//https://auth0.com/docs/libraries/lock/v11/configuration
 const lockOptions = {
   rememberLastLogin: false,
   allowForgotPassword: false,
@@ -15,27 +17,25 @@ const lockOptions = {
     title: 'Top Secret Area'
   },
   auth: {
+    //our callback url once we have the token
     redirectUrl: 'https://www.throughthestack.com/demos/auth0-webtask-app',
     responseType: 'token id_token'
   }
 };
 
+//configure your auth0 lock based on your chosen application settings in your
+//auth0 account
 let lock = new Auth0Lock(
   'vKWqEiz2SqjbtpZIAAqSccpzibaFZkzc',
   'adesmier.auth0.com',
   lockOptions
 );
 
-lock.on('authenticated', function(authResult) {
-  //once authenticated...
-  lock.getUserInfo(authResult.accessToken, function(error, profile) {
-    if (error) {
-      return alert(error.message);
-    }
-
-    //profile = insertExpiresDate(profile); //valid for 24 hours
+lock.on('authenticated', authResult => {
+  //once authenticated save token to local storage
+  lock.getUserInfo(authResult.accessToken, (error, profile) => {
+    if (error) return alert(error.message);
     localStorage.setItem('auth0-webtask-app-access-token', authResult.idToken);
-    //localStorage.setItem('test-auth0-profile', JSON.stringify(profile));
   });
 });
 

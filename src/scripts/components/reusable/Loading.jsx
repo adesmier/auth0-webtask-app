@@ -1,5 +1,3 @@
 import React from 'react';
 
-export default function Loading(props) {
-  return <span>Loading...</span>;
-}
+export default () => <span>Loading...</span>

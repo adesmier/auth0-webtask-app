@@ -4,7 +4,7 @@ import Header from './reusable/Header';
 import Main from './reusable/Main';
 
 
-export default function App(props) {
+export default () => {
   return (
     <React.Fragment>
       <Header />
@@ -12,30 +12,3 @@ export default function App(props) {
     </React.Fragment>
   );
 }
-
-
-
-
-// import React, {Component} from 'react';
-
-// import logo from '../../images/logo.svg';
-
-// import '../../styles/App.css';
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <h1 className="App-title">Welcome to React</h1>
-//         </header>
-//         <p className="App-intro">
-//           To get started, edit <code>src/App.js</code> and save to reload.
-//         </p>
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
