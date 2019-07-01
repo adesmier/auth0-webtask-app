@@ -6,14 +6,14 @@ const lockOptions = {
   rememberLastLogin: false,
   allowForgotPassword: false,
   prefill: {
-    email: 'guest@adesmier.com'
+    email: 'guest@auth0webtaskapp.com'
   },
   theme: {
     primaryColor: '#0d2f52',
     labeledSubmitButton: false
   },
   languageDictionary: {
-    emailInputPlaceholder: 'guest@adesmier.com',
+    emailInputPlaceholder: 'guest@auth0webtaskapp.com',
     title: 'Top Secret Area'
   },
   auth: {
