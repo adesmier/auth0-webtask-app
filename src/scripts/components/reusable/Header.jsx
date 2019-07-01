@@ -10,7 +10,9 @@ export default () => {
         an authentication token for us and then have the data we want to display
         be retrieved by our <a href="https://webtask.io/" target="_blank"
         rel="noopener noreferrer">Webtask</a> app. Our Webtask app requires the
-        auth token in order to send back the data, otherwise it displays an
+        auth token in order to send back the data from <a
+        href="https://jsonplaceholder.typicode.com" target="_blank"
+        rel="noopener noreferrer">JSON Placeholder</a>, otherwise it displays an
         authentication error.
       </h6>
     </React.Fragment>

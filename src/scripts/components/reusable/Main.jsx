@@ -45,7 +45,6 @@ export default class Main extends React.Component {
       })
       .catch(error => {
         //allow 3 attempts to get token
-        console.log('Interval is: ', this.state.intervalCounter);
         if (this.state.intervalCounter === 3) {
           //after our interval has elapsed, we can be confident that we don't
           //have an authentication token so let's request the user to login
@@ -87,7 +86,6 @@ export default class Main extends React.Component {
     const { apiData } = this.state;
     
     if(apiData) {
-      console.log(apiData);
       const {status, data} = apiData;
 
       if(status === 401) {
@@ -99,6 +97,7 @@ export default class Main extends React.Component {
               title='Login'
               clickHandler={Auth0Lock.showLock}
             />
+            <p><em>Try logging in using the password 'guest'</em></p>
             <br />
             <p>
               Try to apply a fake token to try and bypass authentication and we
