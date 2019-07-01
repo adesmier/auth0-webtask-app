@@ -5,8 +5,3 @@ body{
   margin: 40px auto;
   width: 70%;
 }
-
-.auth0-lock.auth0-lock .auth0-lock-submit {
-  box-sizing: content-box !important;
-  width: initial !important;
-}
