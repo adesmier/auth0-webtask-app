@@ -18,7 +18,7 @@ const lockOptions = {
   },
   auth: {
     //our callback url once we have the token
-    redirectUrl: 'https://www.throughthestack.com/demos/auth0-webtask-app',
+    redirectUrl: window.location.href,
     responseType: 'token id_token'
   }
 };
